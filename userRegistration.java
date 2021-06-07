@@ -12,5 +12,7 @@ public class userRegistration {
         String firstName="Prashanth";
         System.out.println(validFirstName(firstName));
 
+        String lastName="Royal";
+        System.out.println(validMatchesFirstName(lastName));
     }
 }
