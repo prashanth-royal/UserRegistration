@@ -1,45 +1,52 @@
-import java.util.Arrays;
-import java.util.Collection;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-	public class emailVerification {
+@FunctionalInterface
+interface validInterface
+{
+	public boolean validate(String pattern,String Input);
+}
+	public class userRegistration {
 
-	private String emailCheck;
-	private boolean expectedResult;
-
-	public emailVerification(String emailCheck, boolean expectedResult)
+		static final String namePattern = "^[A-Z][a-z]{3,30}$";
+		static final String emailPattern = "^[0-9a-zA-Z]+ *([.+-_]?[a-zA-Z0-9]+)"+"@([a-zA-Z0-9][-]?)+[.][a-zA-Z ]{2,4}([.][a-zA-Z]{2,3})?$";
+		static final String phoneNumPattern = "^[0-9]{2}\\s[0-9]{10}";
+		static validInterface validater = (pattern,input)-> Pattern.compile(pattern).matcher(input).matches(); 
+		public boolean validateName(String name) throws UserRegistrationException
 	{
-		this.emailCheck=emailCheck;
-		this.expectedResult=expectedResult;
+		if(validater.validate(namePattern,name))
+		{
+			System.out.println(name);
+			return true;
+		}
+		else
+		{
+			throw new UserRegistrationException(name+"is not valid. Enter valid Name");
+		}
 	}
-
-	public static Collection getInput()
+	public boolean validatePhoneNum(String PhoneNum) throws UserRegistrationException 
 	{
-		return Arrays.asList(new Object[][] {
+		if(validater.validate(phonePattern,PhoneNum))
+		{
+			System.out.println(PhoneNum);
+			return true;
+		}
+		else
+		{
+			throw new UserRegistrationException(PhoneNum+" is not valid. Enter valid number");
+		}
+	}
+	public static boolean validateEmailId(String emailId)throws UserRegistrationException 
+	{
+		if(validater.validate(emailPattern,emailId))
+		{
+			System.out.println(emailId);
+			return true;
+		}
+		else
+		{
+			throw new UserRegistrationException(emailId+"is not valid. Enter Valid emailId");
+		}
 
-			 { "abc@yahoo.com",true},
-			 { "abc-100@yahoo.com",true},
-			 {"abc.100@yahoo.com",true},
-			 {"abc111@abc.com",true},
-			 {"abc-100@abc.net",true},
-			 {"abc.100@abc.com.au",true},
-			 {"abc@1.com",true},
-			 {"abc@gmail.com.com",true},
-			 {"abc+100@gmail.com",true},
-			 {"abc",false},
-			 {"abc@.com.my",false},
-			 {"abc123@gmail.a",false},
-			 {"abc123@.com",false},
-			 {"abc123@.com.com",false},
-			 {"abc()*@gmail.com",false},
-			 {".abc@abc.com",false},
-			 {"abc()*@gmail.com",false},
-			 {"abc@%*.com",false},
-			 {"abc.@gmail.com",false},
-			 {"abc@gmail.com.1a",false},
-			 {"abc@gmail.com.aa.au",false},
-			 {"abc....2002@gmail.com",false}
-
-		});
 	}
 }
-
